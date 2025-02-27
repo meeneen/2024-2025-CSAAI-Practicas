@@ -137,5 +137,5 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10px; /* Example height for header */
+    height: 10px;
 }
