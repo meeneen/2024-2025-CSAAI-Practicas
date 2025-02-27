@@ -5,109 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV Dos columnas</title>
-    <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: hwb(0 21% 79%);
-            color: #f4f4f4;
-            font-size: 21px;
-        }
-        h2 {
-            color: hsl(32, 100%, 50%);
-            text-align: center;
-            font-size: 24px;
-        }
-        .fila {
-            display: flex;
-            max-width: 1200px;
-            margin: 60px auto;  
-            gap: 60;
-            padding: 20px;
-        }
-        .columna {
-            flex: 1;
-            padding: 30px;
-            border: 1px solid #444;
-            border-radius: 10px;
-            background-color: #222;
-            box-sizing: border-box;
-            margin-bottom: 28px;
-        }
-        .columna img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            display: block;
-            margin: 0 auto 15px;
-        }
-        .imagen-burbuja {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 20px auto;
-            border: 3px solid hsl(32, 100%, 50%);
-            box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
-        }
-        .contenedor-imagenes {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 20px;
-            
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        ul li {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #444;
-            border-radius: 5px;
-        }
-        .competencias {
-            padding: 0;
-        }
-        .competencia {
-            margin-bottom: 15px;
-        }
-        .competencia span {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .barra-progreso {
-            position: relative;
-            background-color: #555;
-            height: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .nivel {
-            height: 100%;
-            background-color: #ff0000;
-            width: 0;
-            transition: width 0.5s ease;
-        }
-        .texto-nivel {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            color: #fff;
-            line-height: 20px;
-            font-weight: bold;
-        }
-        @media (max-width: 768px) {
-            .fila {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="2c-template.css">
 </head>
 <body>
     
@@ -117,7 +15,7 @@
         <div id="c1" class="columna izquierda">
             <h2>Perfil</h2>
 
-            <img id="imgperfil" src="perfil.png" alt="HTML5">
+            <img id="imgperfil" src="ARCHIVOS/perfil.png" alt="HTML5">
             <p>Maximiliano Angulo, mejor conocido como "El Mente Fría". 
                 Soy el contacto que necesitas en Mirador de Montepinar. 
                 Con mi ingenio inigualable y filosofía de vida relajada, siempre encuentro la manera de salir adelante, 
@@ -125,8 +23,8 @@
             </p>
             <hr>
             <div class="contenedor-imagenes">
-                <img class="imagen-burbuja" src="MaxAndHenry.png" alt="Imagen 3">
-                <img class="imagen-burbuja" src="amador.jpeg" alt="Imagen 4">
+                <img class="imagen-burbuja" src="ARCHIVOS/MaxAndHenry.png" alt="Imagen 3">
+                <img class="imagen-burbuja" src="ARCHIVOS/amador.jpeg" alt="Imagen 4">
                 
             </div>
             <hr>
@@ -136,21 +34,21 @@
                         <span>Creación de ideas geniales</span>
                         <div class="barra-progreso">
                             <div class="nivel" style="width: 95%;"></div>
-                            <div class="texto-nivel">40%</div>
+                            <div class="texto-nivel">95%</div>
                         </div>                        
                     </li>
                     <li class="competencia">
                         <span>Gestión y éxito en sus proyectos</span>
                         <div class="barra-progreso">
                             <div class="nivel" style="width: 60%;"></div>
-                            <div class="texto-nivel">90%</div>
+                            <div class="texto-nivel">60%</div>
                         </div>                        
                     </li>
                     <li class="competencia">
                         <span>Imitación de acentos/personas</span>
                         <div class="barra-progreso">
                             <div class="nivel" style="width: 80%;"></div>
-                            <div class="texto-nivel">100%</div>
+                            <div class="texto-nivel">80%</div>
                         </div>                        
                     </li>        
                 </ul>
@@ -159,23 +57,25 @@
 
         <div id="c2" class="columna derecha">
             <h2>Vida laboral</h2>
-            <img src="cartelmah.jpg" alt="Tecnologías web">
+            <img src="ARCHIVOS/cartelmah.jpg" alt="Tecnologías web">
             <p>Me autodescribo como una caja de sorpresas, polivalente y 
                 multifuncional en cualquier puesto, ya que he trabajado en
                 variedad de entornos.
             </p>
             <div class="contenedor-imagenes">
-                <img class="imagen-burbuja" src="militar.webp" alt="Imagen 3">
-                <img class="imagen-burbuja" src="indio.webp" alt="Imagen 4">
+                <img class="imagen-burbuja" src="ARCHIVOS/militar.webp" alt="Imagen 3">
+                <img class="imagen-burbuja" src="ARCHIVOS/indio.webp" alt="Imagen 4">
             </div>
             <ul>
                 <li>Formación:</br>-Educación Secundaria Obligatoria </br>-Discípulo de la vida </li>                   
                 <li>Experiencia:</br>-Socio y gerente del 'Max and Henry'.</br>
                 -Exmilitar en Afganistán condecorado.</br>-Conserje </br>-Intérprete de ejecutivo indio</li>
-                <li>Acerca de</li>
+                <li>Acerca de
+                    <a class="boton-enlace" href="about.html">El Mente Fría </a>
+                </li>
             </ul>
             <ul>
-                <li>Contacto</li>
+                <li>Contacto: </br> -Dirección: Caravana aparcada frente a Mirador de Montepinar</br> -Email: maxiyanarosa@gmail.com </br> -Tlf: 922 69 69 69</li>
             </ul>
         </div>
     </div>

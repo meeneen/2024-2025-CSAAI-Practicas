@@ -1,65 +1,120 @@
-/* https://www.w3schools.com/howto/howto_css_two_columns.asp */
-/* https://developer.mozilla.org/es/docs/Web/CSS/box-sizing */
-/* Así definimos el comportamiento de caja para todos los elementos */
-* {
-    box-sizing: border-box;
-  }
-  
-/* Crear columnas de ancho diferente que se colocan una a continuación de la otra */
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: hwb(0 21% 79%);
+    color: #f4f4f4;
+    font-size: 21px;
+}
+h2 {
+    color: hsl(32, 100%, 50%);
+    text-align: center;
+    font-size: 24px;
+}
+.fila {
+    display: flex;
+    max-width: 1200px;
+    margin: 60px auto;  
+    gap: 60;
+    padding: 20px;
+}
 .columna {
-float: left;
-padding: 10px;
-min-height: 500px;
+    flex: 1;
+    padding: 30px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background-color: #222;
+    box-sizing: border-box;
+    margin-bottom: 28px;
 }
-
-.izquierda {
-width: 25%;
-}
-
-.derecha {
-width: 75%;
-}
-
-/* Clear floats despues de las columnas para eliminar la superposición */
-.filla:after {
-content: "";
-display: table;
-clear: both;
-}
-
-#c1 {
-    background-color:#aaa;
-}
-
-#c2 {
-    background-color:#bbb;
-}
-
-/* estilos para imágenes https://www.w3schools.com/css/css3_images.asp */
-/* posicionamiento de imágenes https://www.w3schools.com/css/css_positioning.asp */
-
-img {
-    width: 100%;
+.columna img {
+    max-width: 100%;
     height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto 15px;
 }
-
-.iresponsive {
-    padding: 0 6px;
-    float: left;
-    width: 50%;
-  }
-
-/* Responsive layout - cuando el ancho de pantalla es menor a 600px, muestra las columnas apiladas. */
-/* Así conseguimos que el contenido se vea bien en dispositvos móviles */
-
-@media screen and (max-width: 600px) {
-    .columna {
-      width: 100%;
-    }
-
-    .iresponsive {
-        width: 100%;
+.imagen-burbuja {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px auto;
+    border: 3px solid hsl(32, 100%, 50%);
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+}
+.contenedor-imagenes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+ul li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #444;
+    border-radius: 5px;
+}
+.competencias {
+    padding: 0;
+}
+.competencia {
+    margin-bottom: 15px;
+}
+.competencia span {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.barra-progreso {
+    position: relative;
+    background-color: #555;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.nivel {
+    height: 100%;
+    background-color: #ff0000;
+    width: 0;
+    transition: width 0.5s ease;
+}
+.texto-nivel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #fff;
+    line-height: 20px;
+    font-weight: bold;
+}
+p {
+    font-family: 'Irish Grover', cursive;
+}
+@media (max-width: 768px) {
+    .fila {
+        flex-direction: column;
     }
 }
-
-/* Más sobre diseño web responsive https://www.w3schools.com/css/css_rwd_intro.asp */
+.boton-enlace {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: hsl(32, 100%, 50%);
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+.boton-enlace:hover {
+    background-color: hsl(32, 100%, 60%);
+}

@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: hwb(0 21% 79%);
+    color: #f4f4f4;
+    font-size: 21px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 32px;
+    color: hsl(32, 100%, 50%);
+    margin: 20px 0;
+}
+
+.images-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px auto;
+}
+
+.images-container img {
+    width: 25%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+}
+
+.audios-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.audio-item {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 600px;
+}
+
+.audio-item span {
+    display: block;
+    font-family: 'Irish Grover', cursive;
+    margin-bottom: 10px;
+    color: hsl(32, 100%, 50%);
+}
+
+audio {
+    width: 100%;
+    border-radius: 5px;
+}
