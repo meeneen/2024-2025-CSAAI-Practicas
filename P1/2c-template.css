@@ -57,12 +57,7 @@ h2 {
     border: 3px solid hsl(32, 100%, 50%);
     box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
 }
-.contenedor-imageneshorizontal {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-}
+
 .contenedor-imagenesvertical {
     display: flex;
     flex-direction:column;
