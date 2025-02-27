@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Frijole&display=swap');
 body {
     font-family: 'Comic Sans MS', sans-serif;
     margin: 0;
@@ -8,11 +9,22 @@ body {
     color: #f4f4f4;
     font-size: 21px;
 }
+h1 {
+    font-family: 'Frijole';
+    font-size: 45px;
+    color: hsl(32, 100%, 50%);
+    margin: 20px 0;
+    margin-top: 80px;
+    text-align: center;
+}
 h2 {
+    margin-top: 1px;
     color: hsl(32, 100%, 50%);
     text-align: center;
-    font-size: 24px;
+    font-size: 45px;
+    font-family: 'Permanent Marker';
 }
+
 .fila {
     display: flex;
     max-width: 1200px;
@@ -38,16 +50,22 @@ h2 {
 }
 .imagen-burbuja {
     width: 260px;
-    height: 260px;
+    height: auto;
     border-radius: 50%;
     object-fit: cover;
     margin: 20px auto;
     border: 3px solid hsl(32, 100%, 50%);
     box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
 }
-.contenedor-imagenes {
+.contenedor-imageneshorizontal {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+.contenedor-imagenesvertical {
+    display: flex;
+    flex-direction:column;
     align-items: center;
     gap: 20px;
 }
@@ -71,6 +89,7 @@ ul li {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    font-family: 'Irish Grover';
 }
 .barra-progreso {
     position: relative;
@@ -96,7 +115,7 @@ ul li {
     font-weight: bold;
 }
 p {
-    font-family: 'Irish Grover', cursive;
+    font-family: 'Irish Grover';;
 }
 @media (max-width: 768px) {
     .fila {
@@ -117,4 +136,11 @@ p {
 }
 .boton-enlace:hover {
     background-color: hsl(32, 100%, 60%);
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10px; /* Example height for header */
 }
