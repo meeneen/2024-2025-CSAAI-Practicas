@@ -36,7 +36,21 @@ h1 {
     align-items: center;
     gap: 25px;
 }
-
+.boton-enlace {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: hsl(32, 100%, 50%);
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+.boton-enlace:hover {
+    background-color: hsl(32, 100%, 60%);
+}
 .audio-item {
     background-color: #222;
     padding: 15px;
