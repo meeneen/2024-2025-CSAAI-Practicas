@@ -154,7 +154,7 @@ p {
     font-family: 'Big Shoulders Stencil', cursive;
     margin: 0;
 }
-
+/*cajita de audio*/
 #audioContainer {
     position: fixed;
     bottom: 20px;
@@ -169,7 +169,7 @@ p {
     font-family: 'Big Shoulders Stencil', cursive;
 }
 
-/* Estilo para el texto en el contenedor de audio */
+/* Estilo para el texto del audio */
 #audioContainer p {
     color: #ff0000;
     font-size: 14px;
@@ -189,12 +189,12 @@ p {
     border-radius: 15px;
 }
 
-/* Estilo para los controles de audio al pasar el ratón */
+
 #audioContainer audio:hover {
     background-color: #444;
 }
 
-/* Estilo para los controles de audio al hacer clic */
+/* Estilo para los controles de audio al pulsar */
 #audioContainer audio:active {
     background-color: #222;
 }
@@ -273,7 +273,6 @@ p {
     font-family: 'Big Shoulders Stencil', cursive;
 }
 
-/* Estilos para modal de error */
 .modal-content.error {
     border-color: #f44336;
 }
@@ -299,7 +298,7 @@ p {
     text-decoration: none;
 }
 
-/* Título y mensaje del modal */
+/* Contenido de la ventana emergente */
 .modal-content h2 {
     margin-top: 0;
     font-size: 2.5rem;
