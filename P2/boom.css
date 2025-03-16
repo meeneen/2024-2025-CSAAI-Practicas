@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap');
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('ARCHIVOS/fondowatchdogs.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 60px;
+}
+
+/* Tabla con displays y numeritos del codigo */
+#container {
+    width: 50%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Titulo BOOM */
+h1 {
+    text-align: center;
+    font-family: 'Big Shoulders Stencil', cursive;
+    font-size: 4.5rem;
+    color: #ff0000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-top: 0;
+    margin-bottom: 10px;
+    letter-spacing: 8px;
+    position: relative;
+    top: -40px;
+}
+
+/* Estilos para el teclado numerico */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #4d4545;
+    margin: 0 auto;
+    margin-top: -20px;
+}
+
+/* Estilos para las celdas de la tabla */
+td {
+    padding: 10px;
+    border: 4px solid #000000;
+    text-align: center;
+}
+
+/* Celda específica para "Tú puedes..." con menos padding */
+tr:nth-child(3) td {
+    padding: 2px;
+}
+
+/* Celda específica para el cronómetro con menos padding */
+tr:nth-child(2) td {
+    padding: 2px;
+}
+
+/* Estilos para las filas impares de la tabla */
+tr:nth-child(odd) {
+    background-color: #074426;
+}
+
+/* Estilos para las filas pares de la tabla */
+tr:nth-child(even) {
+    background-color: #074426;
+}
+
+/* Estilo para centrar el contenido de los elementos p */
+p {
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+/* Estilo de botones */
+.numberButton,
+#start,
+#stop,
+#clear {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    background-color: #5f5050;
+    border: none;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+    margin: 3px;
+}
+
+/* Estilo cuando ratón encima */
+.numberButton:hover,
+#start:hover,
+#stop:hover,
+#clear:hover {
+    background-color: #2b2727;
+}
+
+/* Estilo cuando se hace click */
+.numberButton:active,
+#start:active,
+#stop:active,
+#clear:active {
+    background-color: #181313;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 5px;
+    justify-content: center;
+}
+
+.asterisco {
+    font-size: 30px;
+    text-align: center;
+    color: red;
+    font-family: 'Big Shoulders Stencil', cursive;
+}
+
+.correct-guess {
+    color: rgb(103, 182, 103);
+    font-size: 30px;
+    font-family: 'Big Shoulders Stencil', cursive;
+}
+
+#display {
+    color: red;
+    font-size: 40px;
+    margin: 0;
+    font-family: 'Big Shoulders Stencil', cursive;
+}
+
+#display2 {
+    color: rgb(101, 243, 18);
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Big Shoulders Stencil', cursive;
+    margin: 0;
+}
+
+#audioContainer {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 999;
+    background-color: #333;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 2px solid #555;
+    font-family: 'Big Shoulders Stencil', cursive;
+}
+
+/* Estilo para el texto en el contenedor de audio */
+#audioContainer p {
+    color: #ff0000;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para los controles de audio */
+#audioContainer audio {
+    width: 150px;
+    height: 30px;
+    background-color: #555;
+    border: none;
+    color: white;
+    font-size: 7px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+/* Estilo para los controles de audio al pasar el ratón */
+#audioContainer audio:hover {
+    background-color: #444;
+}
+
+/* Estilo para los controles de audio al hacer clic */
+#audioContainer audio:active {
+    background-color: #222;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        padding-top: 30px;
+        flex-direction: column;
+    }
+    
+    #container {
+        width: 90%;
+        padding-top: 30px;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: 5px;
+        top: -20px;
+    }
+    
+    table {
+        margin-top: -10px;
+    }
+    
+    #display {
+        font-size: 35px;
+    }
+
+    .numberButton,
+    #start,
+    #stop,
+    #clear {
+        width: 60px;
+        height: 60px;
+    }
+
+    #audioContainer {
+        position: static;
+        margin: auto;
+        width: 90%;
+        max-width: 300px;
+    }
+    
+    #audioContainer audio {
+        width: 100%;
+    }
+}
+
+/*ESTILO PARA LA VENTANA EMERGENTE AL FINAL DEL JUEGO*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #333;
+    margin: 15% auto;
+    padding: 20px;
+    border: 3px solid #555;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    animation: slideIn 0.4s ease-in-out;
+    font-family: 'Big Shoulders Stencil', cursive;
+}
+
+/* Estilos para modal de error */
+.modal-content.error {
+    border-color: #f44336;
+}
+
+.modal-content.error h2 {
+    color: #f44336;
+}
+
+/* Botón de cerrar */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Título y mensaje del modal */
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content p {
+    color: #ddd;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Ajustes para móviles */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        margin: 30% auto;
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: 2rem;
+    }
+    
+    .modal-content p {
+        font-size: 1rem;
+    }
+}

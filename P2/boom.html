@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOM</title>
+    <!-- Hoja de estilo -->
+    <link rel="stylesheet" href="boom.css">
+
+    <!-- Código javascript -->
+    <script src="cronometro.js" defer></script>
+    <script src="boom.js" defer></script>
+</head>
+
+<body>
+  <div id="container">
+    <h1>BOOM</h1>
+    <table>
+      <tr>
+        <td><p class="asterisco" id="contador1">*</p></td>
+        <td><p class="asterisco" id="contador2">*</p></td>
+        <td><p class="asterisco" id="contador3">*</p></td>
+        <td><p class="asterisco" id="contador4">*</p></td>
+      </tr>
+      <tr>
+        <td colspan="4"><p id="display">0:0:0</p></td>
+      </tr>
+      <tr>
+        <td colspan="4"><p id="display2">Tú puedes...</p></td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <div class="button-container">
+            <table>
+              <tr>
+                <td><button type="button" id="boton1" value="1" class="numberButton digito">1</button></td>
+                <td><button type="button" id="boton2" value="2" class="numberButton digito">2</button></td>
+                <td><button type="button" id="boton3" value="3" class="numberButton digito">3</button></td>
+              </tr>
+              <tr>
+                <td><button type="button" id="boton4" value="4" class="numberButton digito">4</button></td>
+                <td><button type="button" id="boton5" value="5" class="numberButton digito">5</button></td>
+                <td><button type="button" id="boton6" value="6" class="numberButton digito">6</button></td>
+              </tr>
+              <tr>
+                <td><button type="button" id="boton7" value="7" class="numberButton digito">7</button></td>
+                <td><button type="button" id="boton8" value="8" class="numberButton digito">8</button></td>
+                <td><button type="button" id="boton9" value="9" class="numberButton digito">9</button></td>
+              </tr>
+              <tr>
+                <td><button type="button" class="numberButton"></button></td>
+                <td><button type="button" id="boton0" value="0" class="numberButton digito">0</button></td>
+                <td><button type="button" class="numberButton"></button></td>
+              </tr>
+              <tr>
+                <td><button type="button" id="start" class="numberButton">Start</button></td>
+                <td><button type="button" id="stop" class="numberButton">Stop</button></td>
+                <td><button type="button" id="clear" class="numberButton">Reset</button></td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="audioContainer">
+    <p>TIKTAK...</p>
+    <audio controls>
+      <source src="ARCHIVOS/tiktak.mp3" class="audio" type="audio/mpeg">
+    </audio>
+  </div>
+</body>
+</html>
