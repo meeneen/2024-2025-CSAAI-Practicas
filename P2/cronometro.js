@@ -1,4 +1,4 @@
-// Clase Cronometro
+
 class Cronometro {
     constructor(displayElement, onComplete) {
         this.display = displayElement;
@@ -10,7 +10,7 @@ class Cronometro {
         this.reset();
     }
     
-    // Iniciar el cronómetro
+    // Iniciar el crono
     start() {
         if (this.isRunning) return;
         
@@ -20,10 +20,10 @@ class Cronometro {
         this.timerInterval = setInterval(() => {
             this.currentTime = Date.now() - this.startTime;
             this.updateDisplay();
-        }, 100); // Actualizar cada 100ms para mayor precisión
+        }, 100); 
     }
     
-    // Detener el cronómetro
+    // Detener el crono
     stop() {
         if (!this.isRunning) return;
         
@@ -31,14 +31,14 @@ class Cronometro {
         clearInterval(this.timerInterval);
     }
     
-    // Reiniciar el cronómetro
+    // Reiniciar el crono
     reset() {
         this.stop();
         this.currentTime = 0;
         this.updateDisplay();
     }
     
-    // Actualizar la visualización del cronómetro
+    // Actualiza el crono en la interfaz
     updateDisplay() {
         // Convertir milisegundos a formato mm:ss:ms
         const totalSeconds = Math.floor(this.currentTime / 1000);

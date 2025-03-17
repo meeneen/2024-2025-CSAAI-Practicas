@@ -19,35 +19,35 @@ const botonStart = document.getElementById('start');
 const botonStop = document.getElementById('stop');
 const botonClear = document.getElementById('clear');
 
-// Inicializar el cronómetro (asumiendo que existe en cronometro.js)
+// Inicializar el crono
 let cronometro;
 
-// Función para generar código secreto aleatorio
+//  código secreto aleatorio
 function generarCodigoSecreto() {
     codigoSecreto = [];
     for (let i = 0; i < 4; i++) {
         codigoSecreto.push(Math.floor(Math.random() * 10)); // Números del 0 al 9
     }
-    console.log("Código secreto generado:", codigoSecreto); // Para depuración
+    console.log("Código secreto generado:", codigoSecreto); // poder verlo en la consola
 }
 
-// Función para iniciar el cronómetro
+// iniciar el crono
 function iniciarCronometro() {
     if (cronometro && !cronometro.isRunning) {
         cronometro.start();
     }
 }
 
-// Función para detener el cronómetro
+//  detener el crono
 function detenerCronometro() {
     if (cronometro && cronometro.isRunning) {
         cronometro.stop();
     }
 }
 
-// Función para reiniciar el juego
+// reset
 function reiniciarJuego() {
-    // Ocultar modal si está visible
+    // ocultar ventana emergente si está visible
     ocultarModal();
     
     // Generar nueva clave secreta
@@ -57,30 +57,30 @@ function reiniciarJuego() {
     digitosAcertados = [false, false, false, false];
     intentosRealizados = 0;
     
-    // Reiniciar contadores visuales
+    // Reiniciar contadores
     contadores.forEach(contador => {
         contador.textContent = '*';
         contador.className = 'asterisco';
     });
     
     // Mostrar mensaje inicial
-    display2.textContent = 'Tú puedes...';
+    display2.textContent = 'A por ello!';
     display2.style.color = 'rgb(101, 243, 18)';
     
-    // Reiniciar cronómetro
+    // Reiniciar crono
     if (cronometro) {
         cronometro.reset();
     }
     
-    // Habilitar botones de dígitos
+    // Habilitar botones de numeros
     botonesDigitos.forEach(boton => {
         boton.disabled = false;
     });
 }
 
-// Función para verificar el dígito ingresado
+
 function verificarDigito(digito) {
-    // Iniciar cronómetro si no está iniciado
+    // Iniciar crono si esta parado
     if (cronometro && !cronometro.isRunning) {
         cronometro.start();
     }
@@ -88,32 +88,31 @@ function verificarDigito(digito) {
     // Incrementar contador de intentos
     intentosRealizados++;
     
-    // Verificar si el dígito está en el código secreto
+    // Verificar si el numero esta en la clave
     let acierto = false;
     for (let i = 0; i < codigoSecreto.length; i++) {
         if (parseInt(digito) === codigoSecreto[i] && !digitosAcertados[i]) {
-            // Dígito correcto y no acertado previamente
             contadores[i].textContent = digito;
             contadores[i].className = 'correct-guess';
             digitosAcertados[i] = true;
             acierto = true;
-            break; // Solo acertamos un dígito a la vez
+            break; // Solo acertamos un numero por intento
         }
     }
     
-    // Verificar si se han acertado todos los dígitos
+    // Verificar si se han acertado todos los numeros
     if (digitosAcertados.every(acertado => acertado)) {
         finalizarJuego(true);
         return;
     }
     
-    // Verificar si se alcanzó el máximo de intentos
+    // Verificar si se alcanza el máximo de intentos
     if (intentosRealizados >= intentosMaximos) {
         finalizarJuego(false);
         return;
     }
     
-    // Actualizar mensaje según resultado del intento
+    // Actualizar mensajito segun el resultado
     if (acierto) {
         display2.textContent = '¡Buen trabajo! Sigue así...';
     } else {
@@ -121,19 +120,19 @@ function verificarDigito(digito) {
     }
 }
 
-// Función para finalizar el juego
+// terminar juego
 function finalizarJuego(victoria) {
-    // Detener cronómetro
+    // Detener crono
     if (cronometro) {
         cronometro.stop();
     }
     
-    // Deshabilitar botones de dígitos
+    //  botones de numeros off
     botonesDigitos.forEach(boton => {
         boton.disabled = true;
     });
     
-    // Mostrar mensaje según resultado
+    // Mostrar mensajito segun el resultado
     if (victoria) {
         display2.textContent = '¡VICTORIA!';
         display2.style.color = 'rgb(101, 243, 18)';
@@ -141,7 +140,7 @@ function finalizarJuego(victoria) {
         display2.textContent = '¡BOOM! Has perdido';
         display2.style.color = 'red';
         
-        // Mostrar código correcto
+        // Mostrar clave correcta
         contadores.forEach((contador, index) => {
             if (!digitosAcertados[index]) {
                 contador.textContent = codigoSecreto[index];
@@ -154,15 +153,11 @@ function finalizarJuego(victoria) {
     }
 }
 
-// Función para crear y mostrar el modal
+// Función para crear y mostrar la ventana emergente
 function mostrarModal(titulo, mensaje) {
-    // Verificar si ya existe un modal y eliminarlo
-    let modalExistente = document.getElementById('gameModal');
-    if (modalExistente) {
-        modalExistente.remove();
-    }
+   
     
-    // Crear elementos del modal
+    // Crear elementos de la ventana emergente
     const modal = document.createElement('div');
     modal.id = 'gameModal';
     modal.className = 'modal';
@@ -181,22 +176,22 @@ function mostrarModal(titulo, mensaje) {
     const mensajeElement = document.createElement('p');
     mensajeElement.textContent = mensaje;
     
-    // Construir el modal
+    // Construir la estructura de la ventana emergente
     modalContent.appendChild(closeBtn);
     modalContent.appendChild(tituloElement);
     modalContent.appendChild(mensajeElement);
     modal.appendChild(modalContent);
     
-    // Añadir el modal al body
+    // Añadir la ventana emergente al body
     document.body.appendChild(modal);
     
-    // Mostrar el modal
+    // Mostrar la ventana emergente con un retraso de 500ms
     setTimeout(() => {
         modal.style.display = 'block';
     }, 500);
 }
 
-// Función para ocultar el modal
+// Función para ocultar la ventana emergente
 function ocultarModal() {
     const modal = document.getElementById('gameModal');
     if (modal) {
@@ -204,36 +199,33 @@ function ocultarModal() {
     }
 }
 
-// Event Listeners
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar cronómetro
+    // Inicializar crono
     cronometro = new Cronometro(
-        document.getElementById('display'),
-        () => {
-            // Callback para cuando el cronómetro llegue a cero (si es necesario)
-        }
+        document.getElementById('display'),     
     );
     
     // Generar código secreto inicial
     generarCodigoSecreto();
     
-    // Botones de dígitos
+    // Botones de numeros
     botonesDigitos.forEach(boton => {
         boton.addEventListener('click', () => {
             verificarDigito(boton.value);
         });
     });
     
-    // Botón Start - Solo inicia el cronómetro
+    // Botón Start - inicia el crono
     botonStart.addEventListener('click', iniciarCronometro);
     
-    // Botón Stop - Solo detiene el cronómetro
+    // Botón Stop - detiene el crono
     botonStop.addEventListener('click', detenerCronometro);
     
-    // Botón Reset - Reinicia el juego y genera nueva clave
+    // Botón Reset - Reinicia el crono y genera nueva clave
     botonClear.addEventListener('click', reiniciarJuego);
     
-    // Cerrar modal al hacer clic fuera de él
+    // Cerrar la ventana de derrota al hacer clic fuera de élla
     window.addEventListener('click', (event) => {
         const modal = document.getElementById('gameModal');
         if (event.target === modal) {

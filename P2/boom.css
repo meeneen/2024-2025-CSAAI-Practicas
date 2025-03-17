@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap');
-/* Estilos generales */
+
 * {
     box-sizing: border-box;
 }
@@ -49,40 +49,40 @@ table {
     margin-top: -20px;
 }
 
-/* Estilos para las celdas de la tabla */
+/* Estilos para el contorno de la tabla */
 td {
     padding: 10px;
     border: 4px solid #000000;
     text-align: center;
 }
 
-/* Celda específica para "Tú puedes..." con menos padding */
+/* Celda texto */
 tr:nth-child(3) td {
     padding: 2px;
 }
 
-/* Celda específica para el cronómetro con menos padding */
+/* Celda crono*/
 tr:nth-child(2) td {
     padding: 2px;
 }
 
-/* Estilos para las filas impares de la tabla */
+/* filas impares de la tabla */
 tr:nth-child(odd) {
     background-color: #074426;
 }
 
-/* Estilos para las filas pares de la tabla */
+/* filas pares de la tabla */
 tr:nth-child(even) {
     background-color: #074426;
 }
 
-/* Estilo para centrar el contenido de los elementos p */
+/*  centrar el contenido de los elementos p */
 p {
     color: rgb(255, 255, 255);
     text-align: center;
 }
 
-/* Estilo de botones */
+/* botones */
 .numberButton,
 #start,
 #stop,
@@ -104,7 +104,7 @@ p {
     margin: 3px;
 }
 
-/* Estilo cuando ratón encima */
+/*  ratón encima */
 .numberButton:hover,
 #start:hover,
 #stop:hover,
@@ -112,7 +112,7 @@ p {
     background-color: #2b2727;
 }
 
-/* Estilo cuando se hace click */
+/* click */
 .numberButton:active,
 #start:active,
 #stop:active,
@@ -169,7 +169,7 @@ p {
     font-family: 'Big Shoulders Stencil', cursive;
 }
 
-/* Estilo para el texto del audio */
+/*  texto del audio */
 #audioContainer p {
     color: #ff0000;
     font-size: 14px;
@@ -177,7 +177,7 @@ p {
     font-weight: bold;
 }
 
-/* Estilo para los controles de audio */
+/*controles de audio */
 #audioContainer audio {
     width: 150px;
     height: 30px;
@@ -194,7 +194,7 @@ p {
     background-color: #444;
 }
 
-/* Estilo para los controles de audio al pulsar */
+/*  controles de audio al pulsar */
 #audioContainer audio:active {
     background-color: #222;
 }
@@ -244,7 +244,7 @@ p {
     }
 }
 
-/*ESTILO PARA LA VENTANA EMERGENTE AL FINAL DEL JUEGO*/
+/*ESTILO PARA LA VENTANA EMERGENTE DERROTA*/
 .modal {
     display: none;
     position: fixed;
