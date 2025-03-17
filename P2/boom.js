@@ -155,7 +155,12 @@ function finalizarJuego(victoria) {
 
 // Función para crear y mostrar la ventana emergente
 function mostrarModal(titulo, mensaje) {
-   
+    // Eliminar modal anterior si existe
+    ocultarModal();
+    const existingModal = document.getElementById('gameModal');
+    if (existingModal) {
+        document.body.removeChild(existingModal);
+    }
     
     // Crear elementos de la ventana emergente
     const modal = document.createElement('div');
@@ -196,6 +201,12 @@ function ocultarModal() {
     const modal = document.getElementById('gameModal');
     if (modal) {
         modal.style.display = 'none';
+        // Opcional: eliminar completamente el modal del DOM después de ocultarlo
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+        }, 300); // Pequeño retraso para permitir que termine la animación de cierre
     }
 }
 
