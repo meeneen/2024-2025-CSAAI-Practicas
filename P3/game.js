@@ -8,22 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const rightButton = document.getElementById('rightButton');
     const shootButton = document.getElementById('shootButton');
     
+    // Dimensiones originales del canvas
+    const CANVAS_WIDTH = 600;
+    const CANVAS_HEIGHT = 500;
+    
+    // Factor de escala para mantener las proporciones
+    let scale = 1;
+    
     // Hacer el canvas responsive
     function resizeCanvas() {
         const container = document.querySelector('.game-container');
         const containerWidth = container.clientWidth - 20; // Restar padding
         
-        if (containerWidth < 600) {
-            const aspectRatio = canvas.height / canvas.width;
-            const newWidth = containerWidth;
-            const newHeight = newWidth * aspectRatio;
-            
-            canvas.style.width = newWidth + 'px';
-            canvas.style.height = newHeight + 'px';
+        if (containerWidth < CANVAS_WIDTH) {
+            scale = containerWidth / CANVAS_WIDTH;
         } else {
-            canvas.style.width = '';
-            canvas.style.height = '';
+            scale = 1;
         }
+        
+        // Mantener las dimensiones lógicas del canvas
+        canvas.width = CANVAS_WIDTH;
+        canvas.height = CANVAS_HEIGHT;
     }
     
     // Llamar a resizeCanvas cuando cambie el tamaño de la ventana
@@ -39,31 +44,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const bulletSpeed = 7;
     const alienWidth = 40;
     const alienHeight = 30;
-    const alienRowCount = 3;  // 3 filas según las instrucciones
-    const alienColCount = 8;  // Al menos 8 por fila según las instrucciones
+    const alienRowCount = 3;
+    const alienColCount = 8;
     const alienPadding = 15;
     const alienSpeed = 1;
     const alienDropDistance = 20;
     
     // Cargar imágenes
     const playerImage = new Image();
-    playerImage.src = 'ARCHIVOS/jugador.png'; // Asegúrate de tener esta imagen en la carpeta
+    playerImage.src = 'ARCHIVOS/jugador.png';
 
     const alienImage = new Image();
-    alienImage.src = 'ARCHIVOS/rival.png'; // Asegúrate de tener esta imagen en la carpeta
+    alienImage.src = 'ARCHIVOS/rival.png';
     
     const explosionImage = new Image();
-    explosionImage.src = 'ARCHIVOS/explosion.png'; // Asegúrate de tener esta imagen en la carpeta
+    explosionImage.src = 'ARCHIVOS/explosion.png';
     
     // Cargar sonidos
-    const laserSound = new Audio('ARCHIVOS/tiro_laser.mp3'); // Sonido de disparo
-    const explosionSound = new Audio('ARCHIVOS/explosion.mp3'); // Sonido de explosión
-    const victorySound = new Audio('ARCHIVOS/musica_victoria.mp3'); // Sonido de victoria
-    const gameOverSound = new Audio('ARCHIVOS/musica_derrota.mp3'); // Sonido de game over
+    const laserSound = new Audio('ARCHIVOS/tiro_laser.mp3');
+    const explosionSound = new Audio('ARCHIVOS/explosion.mp3');
+    const victorySound = new Audio('ARCHIVOS/musica_victoria.mp3');
+    const gameOverSound = new Audio('ARCHIVOS/musica_derrota.mp3');
     
     let player = {
-        x: canvas.width / 2 - playerWidth / 2,
-        y: canvas.height - playerHeight - 10,
+        x: CANVAS_WIDTH / 2 - playerWidth / 2,
+        y: CANVAS_HEIGHT - playerHeight - 10,
         width: playerWidth,
         height: playerHeight,
         speed: playerSpeed,
@@ -74,11 +79,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let bullets = [];
     let aliens = [];
     let explosions = [];
-    let alienDirection = 1; // 1 derecha, -1 izquierda
+    let alienDirection = 1;
     let score = 0;
     let gameOver = false;
     let victory = false;
-    let gameStarted = true; // Iniciar automáticamente al cargar
+    let gameStarted = true;
+    
+    // Función para convertir coordenadas de pantalla a coordenadas del canvas
+    function getCanvasCoordinates(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY
+        };
+    }
     
     // Inicializar aliens
     function initAliens() {
@@ -93,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     width: alienWidth, 
                     height: alienHeight, 
                     alive: true,
-                    type: r % 3 // Para tener diferentes tipos de aliens
+                    type: r % 3
                 });
             }
         }
@@ -104,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (playerImage.complete) {
             ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
         } else {
-            // Fallback si la imagen no está cargada
             ctx.fillStyle = '#0f0';
             ctx.fillRect(player.x, player.y, player.width, player.height);
         }
@@ -125,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (alienImage.complete) {
                     ctx.drawImage(alienImage, alien.x, alien.y, alien.width, alien.height);
                 } else {
-                    // Fallback si la imagen no está cargada
                     ctx.fillStyle = '#f00';
                     ctx.fillRect(alien.x, alien.y, alien.width, alien.height);
                 }
@@ -139,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (explosionImage.complete) {
                 ctx.drawImage(explosionImage, explosion.x, explosion.y, explosion.width, explosion.height);
             } else {
-                // Fallback si la imagen no está cargada
                 ctx.fillStyle = '#ff0';
                 ctx.beginPath();
                 ctx.arc(explosion.x + explosion.width/2, explosion.y + explosion.height/2, explosion.width/2, 0, Math.PI * 2);
@@ -163,13 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = bullets.length - 1; i >= 0; i--) {
             bullets[i].y -= bulletSpeed;
             
-            // Eliminar balas fuera de pantalla
             if (bullets[i].y < 0) {
                 bullets.splice(i, 1);
                 continue;
             }
             
-            // Comprobar colisiones con aliens
             for (let j = 0; j < aliens.length; j++) {
                 if (aliens[j].alive && 
                     bullets[i] && 
@@ -180,16 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     aliens[j].alive = false;
                     
-                    // Crear explosión
                     explosions.push({
                         x: aliens[j].x,
                         y: aliens[j].y,
                         width: aliens[j].width,
                         height: aliens[j].height,
-                        frames: 15 // Duración de la explosión en frames
+                        frames: 15
                     });
                     
-                    // Reproducir sonido de explosión
                     explosionSound.currentTime = 0;
                     explosionSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                     
@@ -212,30 +222,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 allDead = false;
                 alien.x += alienSpeed * alienDirection;
                 
-                // Comprobar si algún alien toca los bordes
-                if (alien.x <= 0 || alien.x + alien.width >= canvas.width) {
+                if (alien.x <= 0 || alien.x + alien.width >= CANVAS_WIDTH) {
                     shouldChangeDirection = true;
                 }
                 
-                // Comprobar si algún alien llega abajo (game over)
                 if (alien.y + alien.height >= player.y) {
                     gameOver = true;
-                    // Reproducir sonido de game over
                     gameOverSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                 }
             }
         });
         
         if (allDead) {
-            // Victoria - todos los aliens han sido eliminados
             victory = true;
-            // Reproducir sonido de victoria
             victorySound.play().catch(e => console.log("Error al reproducir sonido:", e));
         }
         
         if (shouldChangeDirection) {
             alienDirection *= -1;
-            // Mover aliens hacia abajo
             aliens.forEach(alien => {
                 if (alien.alive) {
                     alien.y += alienDropDistance;
@@ -249,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (player.isMovingLeft && player.x > 0) {
             player.x -= player.speed;
         }
-        if (player.isMovingRight && player.x + player.width < canvas.width) {
+        if (player.isMovingRight && player.x + player.width < CANVAS_WIDTH) {
             player.x += player.speed;
         }
     }
@@ -263,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
             height: bulletHeight
         });
         
-        // Reproducir sonido de disparo
         laserSound.currentTime = 0;
         laserSound.play().catch(e => console.log("Error al reproducir sonido:", e));
     }
@@ -272,8 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawStars() {
         ctx.fillStyle = 'white';
         for (let i = 0; i < 100; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
+            const x = Math.random() * CANVAS_WIDTH;
+            const y = Math.random() * CANVAS_HEIGHT;
             const size = Math.random() * 2;
             ctx.fillRect(x, y, size, size);
         }
@@ -283,11 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function gameLoop() {
         if (!gameStarted || gameOver || victory) return;
         
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
-        // Dibujar fondo
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         drawStars();
         
         updatePlayer();
@@ -304,9 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#f00';
             ctx.font = '40px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+            ctx.fillText('GAME OVER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
             ctx.font = '20px Arial';
-            ctx.fillText('Puntuación final: ' + score, canvas.width / 2, canvas.height / 2 + 40);
+            ctx.fillText('Puntuación final: ' + score, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
             return;
         }
         
@@ -314,10 +316,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#0f0';
             ctx.font = '40px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('¡VICTORIA!', canvas.width / 2, canvas.height / 2);
+            ctx.fillText('¡VICTORIA!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
             ctx.font = '20px Arial';
-            ctx.fillText('Has salvado el sector Canva Centauri', canvas.width / 2, canvas.height / 2 + 40);
-            ctx.fillText('Puntuación final: ' + score, canvas.width / 2, canvas.height / 2 + 70);
+            ctx.fillText('Has salvado el sector Canva Centauri', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
+            ctx.fillText('Puntuación final: ' + score, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 70);
             return;
         }
         
@@ -376,6 +378,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Prevenir comportamientos no deseados en móviles
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.className.includes('mobile-button')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // También añadir soporte para clics de ratón (para pruebas)
         leftButton.addEventListener('mousedown', (e) => {
             e.preventDefault();
             player.isMovingLeft = true;
