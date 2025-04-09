@@ -31,6 +31,14 @@ body {
     text-shadow: 0 0 5px #0f0;
     width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.timer-container {
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff;
 }
 
 canvas {
@@ -49,6 +57,13 @@ canvas {
     width: 100%;
 }
 
+.game-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 button {
     background-color: #0f0;
     color: #000;
@@ -64,6 +79,18 @@ button {
 button:hover {
     background-color: #00ff00;
     transform: scale(1.05);
+}
+
+#pauseButton.paused {
+    background-color: #ff0;
+}
+
+#soundButton.muted {
+    background-color: #f00;
+}
+
+#restartButton {
+    background-color: #0ff;
 }
 
 /* Controles táctiles para móviles */
@@ -92,6 +119,12 @@ button:hover {
     font-size: 24px;
     user-select: none;
     touch-action: manipulation;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.mobile-button:active {
+    opacity: 1;
 }
 
 .shoot-button {

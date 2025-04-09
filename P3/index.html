@@ -2,16 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invasión Alienígena</title>
     <link rel="stylesheet" href="spaceinv.css">
 </head>
-<body>
+<body ontouchstart="return true;">
     <div class="game-container">
-        <div class="score-container">Puntuación: <span id="score">0</span></div>
+        <div class="score-container">
+            Puntuación: <span id="score">0</span>
+            <div class="timer-container">Tiempo: <span id="tiempo">00:00.0</span></div>
+        </div>
         <canvas id="gameCanvas" width="600" height="500"></canvas>
         <div class="controls">
             <p>Controles: Usa las flechas para moverte, barra espaciadora para disparar</p>
+            <div class="game-buttons">
+                <button id="pauseButton">Pausar</button>
+                <button id="soundButton">Silenciar</button>
+                <button id="restartButton" style="display: none;">Reiniciar</button>
+            </div>
         </div>
         <!-- Controles táctiles para móviles -->
         <div class="mobile-controls">
@@ -22,6 +30,7 @@
             </div>
         </div>
     </div>
+    <script src="crono.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

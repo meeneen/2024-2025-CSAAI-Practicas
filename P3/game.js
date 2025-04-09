@@ -2,53 +2,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const scoreElement = document.getElementById('score');
+    const pauseButton = document.getElementById('pauseButton');
+    const soundButton = document.getElementById('soundButton');
+    const restartButton = document.getElementById('restartButton');
+    
+    // Inicializar cronómetro
+    const cronometro = new Cronometro();
+    cronometro.inicializar('tiempo');
     
     // Elementos para controles móviles
     const leftButton = document.getElementById('leftButton');
     const rightButton = document.getElementById('rightButton');
     const shootButton = document.getElementById('shootButton');
     
-    // Dimensiones originales del canvas
-    const CANVAS_WIDTH = 600;
-    const CANVAS_HEIGHT = 500;
-    
-    // Factor de escala para mantener las proporciones
-    let scale = 1;
-    
-    // Hacer el canvas responsive
-    function resizeCanvas() {
-        const container = document.querySelector('.game-container');
-        const containerWidth = container.clientWidth - 20; // Restar padding
-        
-        if (containerWidth < CANVAS_WIDTH) {
-            scale = containerWidth / CANVAS_WIDTH;
-        } else {
-            scale = 1;
-        }
-        
-        // Mantener las dimensiones lógicas del canvas
-        canvas.width = CANVAS_WIDTH;
-        canvas.height = CANVAS_HEIGHT;
-    }
-    
-    // Llamar a resizeCanvas cuando cambie el tamaño de la ventana
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    // Dimensiones del canvas
+    let CANVAS_WIDTH = 600;
+    let CANVAS_HEIGHT = 500;
     
     // Configuración del juego
-    const playerWidth = 50;
-    const playerHeight = 40;
+    let playerWidth = 50;
+    let playerHeight = 40;
     const playerSpeed = 5;
-    const bulletWidth = 3;
-    const bulletHeight = 15;
+    let bulletWidth = 3;
+    let bulletHeight = 15;
     const bulletSpeed = 7;
-    const alienWidth = 40;
-    const alienHeight = 30;
+    let alienWidth = 40;
+    let alienHeight = 30;
     const alienRowCount = 3;
     const alienColCount = 8;
-    const alienPadding = 15;
+    let alienPadding = 15;
     const alienSpeed = 1;
-    const alienDropDistance = 20;
+    let alienDropDistance = 20;
     
     // Cargar imágenes
     const playerImage = new Image();
@@ -84,17 +68,65 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameOver = false;
     let victory = false;
     let gameStarted = true;
+    let gamePaused = false;
+    let soundEnabled = true;
     
-    // Función para convertir coordenadas de pantalla a coordenadas del canvas
-    function getCanvasCoordinates(clientX, clientY) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
+    // Función para redimensionar el canvas
+    function resizeCanvas() {
+        const container = document.querySelector('.game-container');
+        const containerWidth = container.clientWidth;
         
-        return {
-            x: (clientX - rect.left) * scaleX,
-            y: (clientY - rect.top) * scaleY
-        };
+        if (containerWidth < 600) {
+            const aspectRatio = CANVAS_HEIGHT / CANVAS_WIDTH;
+            const newWidth = containerWidth - 20; // Margen
+            const newHeight = newWidth * aspectRatio;
+            
+            // Actualizar dimensiones del canvas
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            
+            // Actualizar constantes de juego proporcionalmente
+            const scale = newWidth / CANVAS_WIDTH;
+            CANVAS_WIDTH = newWidth;
+            CANVAS_HEIGHT = newHeight;
+            
+            playerWidth = 50 * scale;
+            playerHeight = 40 * scale;
+            bulletWidth = 3 * scale;
+            bulletHeight = 15 * scale;
+            alienWidth = 40 * scale;
+            alienHeight = 30 * scale;
+            alienPadding = 15 * scale;
+            alienDropDistance = 20 * scale;
+            
+            // Actualizar posición del jugador
+            player.width = playerWidth;
+            player.height = playerHeight;
+            player.y = CANVAS_HEIGHT - playerHeight - 10;
+            
+            // Reinicializar aliens con nuevas dimensiones
+            initAliens();
+        } else {
+            canvas.width = 600;
+            canvas.height = 500;
+            CANVAS_WIDTH = 600;
+            CANVAS_HEIGHT = 500;
+            
+            playerWidth = 50;
+            playerHeight = 40;
+            bulletWidth = 3;
+            bulletHeight = 15;
+            alienWidth = 40;
+            alienHeight = 30;
+            alienPadding = 15;
+            alienDropDistance = 20;
+            
+            player.width = playerWidth;
+            player.height = playerHeight;
+            player.y = CANVAS_HEIGHT - playerHeight - 10;
+            
+            initAliens();
+        }
     }
     
     // Inicializar aliens
@@ -156,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 ctx.fillStyle = '#ff0';
                 ctx.beginPath();
-                ctx.arc(explosion.x + explosion.width/2, explosion.y + explosion.height/2, explosion.width/2, 0, Math.PI * 2);
+                ctx.arc(explosion.x + explosion.width / 2, explosion.y + explosion.height / 2, explosion.width / 2, 0, Math.PI * 2);
                 ctx.fill();
             }
         });
@@ -200,8 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         frames: 15
                     });
                     
-                    explosionSound.currentTime = 0;
-                    explosionSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+                    if (soundEnabled) {
+                        explosionSound.currentTime = 0;
+                        explosionSound.play().catch(() => {});
+                    }
                     
                     bullets.splice(i, 1);
                     score += 10;
@@ -228,14 +262,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (alien.y + alien.height >= player.y) {
                     gameOver = true;
-                    gameOverSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+                    cronometro.detener();
+                    if (soundEnabled) {
+                        gameOverSound.play().catch(() => {});
+                    }
+                    restartButton.style.display = 'block';
                 }
             }
         });
         
         if (allDead) {
             victory = true;
-            victorySound.play().catch(e => console.log("Error al reproducir sonido:", e));
+            cronometro.detener();
+            if (soundEnabled) {
+                victorySound.play().catch(e => console.log("Error al reproducir sonido:", e));
+            }
+            restartButton.style.display = 'block';
         }
         
         if (shouldChangeDirection) {
@@ -267,14 +309,17 @@ document.addEventListener('DOMContentLoaded', () => {
             height: bulletHeight
         });
         
-        laserSound.currentTime = 0;
-        laserSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+        if (soundEnabled) {
+            laserSound.currentTime = 0;
+            laserSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+        }
     }
     
     // Dibujar estrellas de fondo
     function drawStars() {
+        const starCount = window.innerWidth < 600 ? 50 : 100;
         ctx.fillStyle = 'white';
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < starCount; i++) {
             const x = Math.random() * CANVAS_WIDTH;
             const y = Math.random() * CANVAS_HEIGHT;
             const size = Math.random() * 2;
@@ -282,9 +327,97 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // Dibujar mensaje de pausa
+    function drawPauseMessage() {
+        ctx.fillStyle = '#fff';
+        ctx.font = '30px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('JUEGO PAUSADO', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+        ctx.font = '18px Arial';
+        ctx.fillText('Presiona el botón de pausa para continuar', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
+    }
+    
+    // Pausar/reanudar el juego
+    function togglePause() {
+        gamePaused = !gamePaused;
+        pauseButton.textContent = gamePaused ? 'Reanudar' : 'Pausar';
+        pauseButton.classList.toggle('paused', gamePaused);
+        
+        if (gamePaused) {
+            cronometro.detener();
+            drawPauseMessage();
+        } else {
+            cronometro.iniciar();
+            requestAnimationFrame(gameLoop);
+        }
+    }
+    
+    // Activar/desactivar sonido
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        soundButton.textContent = soundEnabled ? 'Silenciar' : 'Activar Sonido';
+        soundButton.classList.toggle('muted', !soundEnabled);
+        
+        [laserSound, explosionSound, victorySound, gameOverSound].forEach(sound => {
+            sound.muted = !soundEnabled;
+        });
+    }
+    
+    // Reiniciar el juego
+    function resetGame() {
+        player = {
+            x: CANVAS_WIDTH / 2 - playerWidth / 2,
+            y: CANVAS_HEIGHT - playerHeight - 10,
+            width: playerWidth,
+            height: playerHeight,
+            speed: playerSpeed,
+            isMovingLeft: false,
+            isMovingRight: false
+        };
+        
+        bullets = [];
+        explosions = [];
+        alienDirection = 1;
+        score = 0;
+        scoreElement.textContent = score;
+        gameOver = false;
+        victory = false;
+        gamePaused = false;
+        
+        pauseButton.textContent = 'Pausar';
+        pauseButton.classList.remove('paused');
+        restartButton.style.display = 'none';
+        
+        initAliens();
+        cronometro.reiniciar();
+        cronometro.iniciar();
+        
+        requestAnimationFrame(gameLoop);
+    }
+    
     // Bucle principal del juego
     function gameLoop() {
-        if (!gameStarted || gameOver || victory) return;
+        if (!gameStarted || gameOver || victory || gamePaused) {
+            if (gameOver) {
+                ctx.fillStyle = '#f00';
+                ctx.font = '40px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('GAME OVER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+                ctx.font = '20px Arial';
+                ctx.fillText('Puntuación final: ' + score, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
+            } else if (victory) {
+                ctx.fillStyle = '#0f0';
+                ctx.font = '40px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('¡VICTORIA!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+                ctx.font = '20px Arial';
+                ctx.fillText('Has salvado el sector Canva Centauri', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
+                ctx.fillText('Puntuación final: ' + score, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 70);
+            } else if (gamePaused) {
+                drawPauseMessage();
+            }
+            return;
+        }
         
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
@@ -302,40 +435,25 @@ document.addEventListener('DOMContentLoaded', () => {
         drawAliens();
         drawExplosions();
         
-        if (gameOver) {
-            ctx.fillStyle = '#f00';
-            ctx.font = '40px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('GAME OVER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-            ctx.font = '20px Arial';
-            ctx.fillText('Puntuación final: ' + score, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
-            return;
-        }
-        
-        if (victory) {
-            ctx.fillStyle = '#0f0';
-            ctx.font = '40px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('¡VICTORIA!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-            ctx.font = '20px Arial';
-            ctx.fillText('Has salvado el sector Canva Centauri', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
-            ctx.fillText('Puntuación final: ' + score, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 70);
-            return;
-        }
-        
         requestAnimationFrame(gameLoop);
     }
     
     // Eventos de teclado
     document.addEventListener('keydown', (e) => {
-        if (!gameStarted || gameOver || victory) return;
+        if (gameOver || victory) return;
         
         if (e.key === 'ArrowLeft') {
             player.isMovingLeft = true;
         } else if (e.key === 'ArrowRight') {
             player.isMovingRight = true;
         } else if (e.key === ' ') {
-            shoot();
+            if (!gamePaused) shoot();
+        } else if (e.key === 'p' || e.key === 'P') {
+            togglePause();
+        } else if (e.key === 'm' || e.key === 'M') {
+            toggleSound();
+        } else if (e.key === 'r' || e.key === 'R') {
+            if (gameOver || victory) resetGame();
         }
     });
     
@@ -347,71 +465,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Controles táctiles para dispositivos móviles
-    if (leftButton && rightButton && shootButton) {
-        // Control izquierdo
-        leftButton.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            player.isMovingLeft = true;
-        });
-        
-        leftButton.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            player.isMovingLeft = false;
-        });
-        
-        // Control derecho
-        rightButton.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            player.isMovingRight = true;
-        });
-        
-        rightButton.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            player.isMovingRight = false;
-        });
-        
-        // Botón de disparo
-        shootButton.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            shoot();
-        });
-        
-        // Prevenir comportamientos no deseados en móviles
-        document.addEventListener('touchmove', (e) => {
-            if (e.target.className.includes('mobile-button')) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        // También añadir soporte para clics de ratón (para pruebas)
-        leftButton.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            player.isMovingLeft = true;
-        });
-        
-        leftButton.addEventListener('mouseup', (e) => {
-            e.preventDefault();
-            player.isMovingLeft = false;
-        });
-        
-        rightButton.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            player.isMovingRight = true;
-        });
-        
-        rightButton.addEventListener('mouseup', (e) => {
-            e.preventDefault();
-            player.isMovingRight = false;
-        });
-        
-        shootButton.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            shoot();
-        });
-    }
+    // Eventos para controles móviles
+    leftButton.addEventListener('touchstart', () => {
+        player.isMovingLeft = true;
+    });
+    leftButton.addEventListener('touchend', () => {
+        player.isMovingLeft = false;
+    });
+    rightButton.addEventListener('touchstart', () => {
+        player.isMovingRight = true;
+    });
+    rightButton.addEventListener('touchend', () => {
+        player.isMovingRight = false;
+    });
+    shootButton.addEventListener('touchstart', () => {
+        if (!gamePaused) shoot();
+    });
     
-    // Iniciar el juego automáticamente
+    // Botones de pausa y sonido
+    pauseButton.addEventListener('click', togglePause);
+    soundButton.addEventListener('click', toggleSound);
+    restartButton.addEventListener('click', resetGame);
+    
+    // Inicializar el juego
+    resizeCanvas();
     initAliens();
-    gameLoop();
+    cronometro.iniciar();
+    requestAnimationFrame(gameLoop);
 });
