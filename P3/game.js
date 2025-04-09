@@ -3,6 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const scoreElement = document.getElementById('score');
     
+    // Elementos para controles móviles
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+    const shootButton = document.getElementById('shootButton');
+    
+    // Hacer el canvas responsive
+    function resizeCanvas() {
+        const container = document.querySelector('.game-container');
+        const containerWidth = container.clientWidth - 20; // Restar padding
+        
+        if (containerWidth < 600) {
+            const aspectRatio = canvas.height / canvas.width;
+            const newWidth = containerWidth;
+            const newHeight = newWidth * aspectRatio;
+            
+            canvas.style.width = newWidth + 'px';
+            canvas.style.height = newHeight + 'px';
+        } else {
+            canvas.style.width = '';
+            canvas.style.height = '';
+        }
+    }
+    
+    // Llamar a resizeCanvas cuando cambie el tamaño de la ventana
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    
     // Configuración del juego
     const playerWidth = 50;
     const playerHeight = 40;
@@ -164,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Reproducir sonido de explosión
                     explosionSound.currentTime = 0;
-                    explosionSound.play();
+                    explosionSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                     
                     bullets.splice(i, 1);
                     score += 10;
@@ -194,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (alien.y + alien.height >= player.y) {
                     gameOver = true;
                     // Reproducir sonido de game over
-                    gameOverSound.play();
+                    gameOverSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                 }
             }
         });
@@ -203,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Victoria - todos los aliens han sido eliminados
             victory = true;
             // Reproducir sonido de victoria
-            victorySound.play();
+            victorySound.play().catch(e => console.log("Error al reproducir sonido:", e));
         }
         
         if (shouldChangeDirection) {
@@ -238,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Reproducir sonido de disparo
         laserSound.currentTime = 0;
-        laserSound.play();
+        laserSound.play().catch(e => console.log("Error al reproducir sonido:", e));
     }
     
     // Dibujar estrellas de fondo
@@ -317,6 +344,63 @@ document.addEventListener('DOMContentLoaded', () => {
             player.isMovingRight = false;
         }
     });
+    
+    // Controles táctiles para dispositivos móviles
+    if (leftButton && rightButton && shootButton) {
+        // Control izquierdo
+        leftButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            player.isMovingLeft = true;
+        });
+        
+        leftButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            player.isMovingLeft = false;
+        });
+        
+        // Control derecho
+        rightButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            player.isMovingRight = true;
+        });
+        
+        rightButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            player.isMovingRight = false;
+        });
+        
+        // Botón de disparo
+        shootButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            shoot();
+        });
+        
+        // Prevenir comportamientos no deseados en móviles
+        leftButton.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            player.isMovingLeft = true;
+        });
+        
+        leftButton.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            player.isMovingLeft = false;
+        });
+        
+        rightButton.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            player.isMovingRight = true;
+        });
+        
+        rightButton.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            player.isMovingRight = false;
+        });
+        
+        shootButton.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            shoot();
+        });
+    }
     
     // Iniciar el juego automáticamente
     initAliens();

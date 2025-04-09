@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #000;
     font-family: Arial, sans-serif;
     color: white;
@@ -17,6 +17,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .score-container {
@@ -30,11 +34,14 @@ canvas {
     border: 2px solid #0f0;
     background-color: rgba(0, 0, 0, 0.7);
     box-shadow: 0 0 10px #0f0;
+    max-width: 100%;
+    height: auto;
 }
 
 .controls {
     margin-top: 20px;
     text-align: center;
+    width: 100%;
 }
 
 button {
@@ -52,4 +59,63 @@ button {
 button:hover {
     background-color: #00ff00;
     transform: scale(1.05);
+}
+
+/* Controles táctiles para móviles */
+.mobile-controls {
+    display: none;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.mobile-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.mobile-button {
+    background-color: rgba(0, 255, 0, 0.3);
+    border: 2px solid #0f0;
+    color: #0f0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.shoot-button {
+    background-color: rgba(255, 0, 0, 0.3);
+    border-color: #f00;
+    color: #f00;
+}
+
+/* Media queries para diferentes tamaños de pantalla */
+@media (max-width: 768px) {
+    .score-container {
+        font-size: 20px;
+    }
+    
+    .controls p {
+        font-size: 14px;
+    }
+    
+    .mobile-controls {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .score-container {
+        font-size: 18px;
+    }
+    
+    .controls p {
+        font-size: 12px;
+    }
 }
