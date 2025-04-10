@@ -8,7 +8,7 @@ body {
     background-color: #000;
     font-family: Arial, sans-serif;
     color: white;
-    background-image: url('space-background.jpg');
+    background-image: url('ARCHIVOS/fondo_espacio.jpg');
     background-size: cover;
     background-position: center;
     overflow-x: hidden;
@@ -19,35 +19,53 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     padding: 10px;
     box-sizing: border-box;
+    margin-top: 10px;
+}
+
+/* Estilo para el título del juego */
+.game-title {
+    color: rgb(0, 255, 0);
+    text-shadow: 0 0 10px rgb(71, 30, 255);
+    text-align: center;
+    margin-top:-150px;
+    margin-bottom: 80px;
+    font-size: 65px;
+
 }
 
 .score-container {
-    font-size: 24px;
-    margin-bottom: 10px;
+    background-color:rgba(0, 0, 0, 0.85) ;
+    font-size: 30px;
+    margin-bottom: 30px;
     color: #0f0;
     text-shadow: 0 0 5px #0f0;
     width: 100%;
-    text-align: center;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between ;
     flex-wrap: wrap;
+    border:4px solid #0f0;
+}
+
+.score-display {
+    /* Nuevo estilo para el contenedor de puntuación */
+    display: inline-block;
 }
 
 .timer-container {
-    color: #0ff;
-    text-shadow: 0 0 5px #0ff;
+    color: #0f0;
+    text-shadow: 0 0 5px #0f0;
 }
 
 canvas {
-    border: 2px solid #0f0;
+    border: 4px solid #0f0;
     background-color: rgba(0, 0, 0, 0.7);
-    box-shadow: 0 0 10px #0f0;
+    box-shadow: 0 0 20px rgb(71, 30, 255);
     width: 100%;
     height: auto;
-    max-width: 600px;
+    max-width: 800px;
     display: block;
 }
 
@@ -90,7 +108,7 @@ button:hover {
 }
 
 #restartButton {
-    background-color: #0ff;
+    background-color: #0f0;
 }
 
 /* Controles táctiles para móviles */
@@ -146,6 +164,10 @@ button:hover {
     .mobile-controls {
         display: block;
     }
+    
+    .game-title {
+        font-size: 24px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -161,5 +183,15 @@ button:hover {
         width: 60px;
         height: 60px;
         font-size: 20px;
+    }
+    
+    .game-title {
+        font-size: 20px;
+    }
+    
+    /* Para pantallas muy pequeñas, apilar los elementos */
+    .score-container {
+        justify-content: center;
+        gap: 10px;
     }
 }

@@ -1,4 +1,4 @@
-// Cronómetro para el juego Space Invaders
+// Cronómetro para el juego Invasión Alienígena
 class Cronometro {
     constructor() {
         this.tiempoInicio = 0;
@@ -41,6 +41,30 @@ class Cronometro {
         this.tiempoFinal = this.obtenerTiempoTranscurrido();
         this.corriendo = false;
         return this.tiempoFinal;
+    }
+
+    // Pausar el cronómetro (sin resetear)
+    pausar() {
+        if (!this.corriendo) return;
+        
+        clearInterval(this.intervalo);
+        this.tiempoFinal = this.obtenerTiempoTranscurrido();
+        this.corriendo = false;
+    }
+
+    // Reanudar el cronómetro desde donde se pausó
+    reanudar() {
+        if (this.corriendo) return;
+        
+        // Ajustar el tiempo de inicio para mantener el tiempo acumulado
+        this.tiempoInicio = Date.now() - this.tiempoFinal;
+        this.corriendo = true;
+        
+        // Actualizar el tiempo cada 100ms
+        this.intervalo = setInterval(() => {
+            const tiempoActual = this.obtenerTiempoTranscurrido();
+            this.mostrarTiempo(tiempoActual);
+        }, 100);
     }
 
     // Reiniciar el cronómetro
