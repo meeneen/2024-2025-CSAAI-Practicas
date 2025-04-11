@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     imagenExplosion.src = 'ARCHIVOS/explosion.png';
     
     // Cargar sonidos 
-    const sonidoLaser = new Audio('ARCHIVOS/tiro_laser.mp3');
-    const sonidoExplosion = new Audio('ARCHIVOS/explosion.mp3');
+    const sonidoLaser = new Audio('ARCHIVOS/piupiu.mp3');
+    const sonidoExplosion = new Audio('ARCHIVOS/cachau.mp3');
     const sonidoVictoria = new Audio('ARCHIVOS/musica_victoria.mp3');
     const sonidoDerrota = new Audio('ARCHIVOS/musica_derrota.mp3');
     
