@@ -391,6 +391,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Reiniciar el juego
         function reiniciarJuego() {
+            // Detener los sonidos de victoria y derrota
+            sonidoVictoria.pause();
+            sonidoVictoria.currentTime = 0;
+            sonidoDerrota.pause();
+            sonidoDerrota.currentTime = 0;
+            
             jugador = {
                 x: ANCHO_LIENZO / 2 - anchoJugador / 2,
                 y: ALTO_LIENZO - altoJugador - 10,
