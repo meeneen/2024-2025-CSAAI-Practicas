@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Invasión Alienígena</title>
-    <link rel="stylesheet" href="spaceinv.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Invasión Alienígena</title>
+  <link rel="stylesheet" href="spaceinv.css">
 </head>
 <body ontouchstart="return true;">
-    <div class="game-container">
-        <h1 class="game-title">Invasión Alienígena</h1>
-        <div class="score-container">
-            <div class="score-display">Puntuación: <span id="score">0</span></div>
-            <div class="timer-container">Tiempo: <span id="tiempo">00:00.0</span></div>
-        </div>
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <div class="controls">
-            <p>Controles: Usa las flechas para moverte, barra espaciadora para disparar</p>
-            <div class="game-buttons">
-                <button id="pauseButton">Pausar</button>
-                <button id="soundButton">Silenciar</button>
-                <button id="restartButton" style="display: none;">Reiniciar</button>
-            </div>
-        </div>
-        <!-- Controles táctiles para móviles -->
-        <div class="mobile-controls">
-            <div class="mobile-buttons">
-                <div id="leftButton" class="mobile-button">←</div>
-                <div id="shootButton" class="mobile-button shoot-button">🔥</div>
-                <div id="rightButton" class="mobile-button">→</div>
-            </div>
-        </div>
+  <div class="contenedor-juego">
+    <h1 class="titulo">Invasión Alienígena</h1>
+    <div class="contenedor-puntuacion">
+      <div class="puntuacion">Puntuación: <span id="puntuacion">0</span></div>
+      <div class="cronometro">Tiempo: <span id="tiempo">00:00.0</span></div>
     </div>
-    <script src="crono.js"></script>
-    <script src="game.js"></script>
+    <canvas id="lienzo" width="800" height="600"></canvas>
+    <div class="controles">
+      <p>Controles: Usa las flechas para moverte, barra espaciadora para disparar</p>
+      <div class="botones">
+        <button id="pausa">Pausar</button>
+        <button id="sonido">Silenciar</button>
+        <button id="reiniciar" style="display: none;">Reiniciar</button>
+      </div>
+    </div>
+    <!-- Controles táctiles para móviles -->
+    <div class="controles-moviles">
+      <div class="botones-moviles">
+        <div id="izquierda" class="boton-movil">←</div>
+        <div id="disparo" class="boton-movil boton-disparo">🔥</div>
+        <div id="derecha" class="boton-movil">→</div>
+      </div>
+    </div>
+  </div>
+  <script src="crono.js" defer></script>
+  <script src="game.js" defer></script>
 </body>
 </html>

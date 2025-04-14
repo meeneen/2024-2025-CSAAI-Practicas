@@ -1,19 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const lienzo = document.getElementById('gameCanvas');
+    const lienzo = document.getElementById('lienzo');
     const ctx = lienzo.getContext('2d');
-    const elementoPuntuacion = document.getElementById('score');
-    const botonPausa = document.getElementById('pauseButton');
-    const botonSonido = document.getElementById('soundButton');
-    const botonReiniciar = document.getElementById('restartButton');
+    const elementoPuntuacion = document.getElementById('puntuacion');
+    const botonPausa = document.getElementById('pausa');
+    const botonSonido = document.getElementById('sonido');
+    const botonReiniciar = document.getElementById('reiniciar');
     
     // Inicializar cronómetro
     const cronometro = new Cronometro();
     cronometro.inicializar('tiempo');
     
     // Elementos para controles móviles
-    const botonIzquierda = document.getElementById('leftButton');
-    const botonDerecha = document.getElementById('rightButton');
-    const botonDisparo = document.getElementById('shootButton');
+    const botonIzquierda = document.getElementById('izquierda');
+    const botonDerecha = document.getElementById('derecha');
+    const botonDisparo = document.getElementById('disparo');
     
     // Dimensiones del lienzo
     let ANCHO_LIENZO = 800;
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filasAliens = 3;
     const columnasAliens = 8;
     let espaciadoAliens = 15;
-    const velocidadAliens = 1.5;
+    let velocidadAliens = 1.5;
     let distanciaCaidaAliens = 20;
     
     // Variables para las estrellas
@@ -76,19 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Función para redimensionar el lienzo
     function redimensionarLienzo() {
-        const contenedor = document.querySelector('.game-container');
+        const contenedor = document.querySelector('.contenedor-juego');
         const anchoContenedor = contenedor.clientWidth;
         
         if (anchoContenedor < 800) {
             const relacionAspecto = ALTO_LIENZO / ANCHO_LIENZO;
-            const nuevoAncho = anchoContenedor - 20; // Margen
+            const nuevoAncho = anchoContenedor - 20; // margen
             const nuevoAlto = nuevoAncho * relacionAspecto;
             
             // Actualizar dimensiones del lienzo
             lienzo.width = nuevoAncho;
             lienzo.height = nuevoAlto;
             
-            // Actualizar constantes de juego proporcionalmente
+            // Escalar parámetros del juego
             const escala = nuevoAncho / ANCHO_LIENZO;
             ANCHO_LIENZO = nuevoAncho;
             ALTO_LIENZO = nuevoAlto;
@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
             jugador.alto = altoJugador;
             jugador.y = ALTO_LIENZO - altoJugador - 10;
             
-            // Reinicializar aliens con nuevas dimensiones
             inicializarAliens();
             inicializarEstrellas();
         } else {
@@ -138,13 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function inicializarEstrellas() {
         estrellas = [];
         const cantidadEstrellas = window.innerWidth < 800 ? 50 : 100;
-        
         for (let i = 0; i < cantidadEstrellas; i++) {
             estrellas.push({
                 x: Math.random() * ANCHO_LIENZO,
                 y: Math.random() * ALTO_LIENZO,
-                tamaño: Math.random() * 2 + 0.5,
-                velocidad: Math.random() * 0.3 + 0.1  // Velocidad lenta entre 0.1 y 0.4 píxeles por fotograma
+                tamano: Math.random() * 2 + 0.5,
+                velocidad: Math.random() * 0.3 + 0.1
             });
         }
     }
@@ -156,18 +154,19 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let c = 0; c < columnasAliens; c++) {
                 const x = c * (anchoAlien + espaciadoAliens) + espaciadoAliens;
                 const y = f * (altoAlien + espaciadoAliens) + espaciadoAliens + 30;
-                aliens.push({ 
-                    x, 
-                    y, 
-                    ancho: anchoAlien, 
-                    alto: altoAlien, 
+                aliens.push({
+                    x,
+                    y,
+                    ancho: anchoAlien,
+                    alto: altoAlien,
                     vivo: true,
                     tipo: f % 3
                 });
             }
         }
     }
-    // Dibujar jugador
+    
+    // Dibujar al jugador
     function dibujarJugador() {
         if (imagenJugador.complete) {
             ctx.drawImage(imagenJugador, jugador.x, jugador.y, jugador.ancho, jugador.alto);
@@ -177,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Dibujar balas
+    // Dibujar las balas
     function dibujarBalas() {
         ctx.fillStyle = '#fff';
         balas.forEach(bala => {
@@ -185,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Dibujar aliens
+    // Dibujar los aliens
     function dibujarAliens() {
         aliens.forEach(alien => {
             if (alien.vivo) {
@@ -199,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Dibujar explosiones
+    // Dibujar las explosiones
     function dibujarExplosiones() {
         explosiones.forEach(explosion => {
             if (imagenExplosion.complete) {
@@ -213,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Actualizar explosiones
+    // Actualizar las explosiones
     function actualizarExplosiones() {
         for (let i = explosiones.length - 1; i >= 0; i--) {
             explosiones[i].fotogramas--;
@@ -223,24 +222,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Actualizar posición de las balas
+    // Actualizar la posición de las balas
     function actualizarBalas() {
         for (let i = balas.length - 1; i >= 0; i--) {
             balas[i].y -= velocidadBala;
-            
             if (balas[i].y < 0) {
                 balas.splice(i, 1);
                 continue;
             }
-            
             for (let j = 0; j < aliens.length; j++) {
-                if (aliens[j].vivo && 
-                    balas[i] && 
+                if (
+                    aliens[j].vivo &&
+                    balas[i] &&
                     balas[i].x < aliens[j].x + aliens[j].ancho &&
                     balas[i].x + balas[i].ancho > aliens[j].x &&
                     balas[i].y < aliens[j].y + aliens[j].alto &&
-                    balas[i].y + balas[i].alto > aliens[j].y) {
-                    
+                    balas[i].y + balas[i].alto > aliens[j].y
+                ) {
                     aliens[j].vivo = false;
                     
                     explosiones.push({
@@ -265,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Actualizar posición de los aliens
     function actualizarAliens() {
         let cambiarDireccion = false;
         let todosMuertos = true;
@@ -301,6 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (cambiarDireccion) {
             direccionAliens *= -1;
+            velocidadAliens += 0.1; // Aquí ajustas el incremento (0.1 actualmente)
             aliens.forEach(alien => {
                 if (alien.vivo) {
                     alien.y += distanciaCaidaAliens;
@@ -309,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Actualizar posición del jugador
+    // Actualizar la posición del jugador
     function actualizarJugador() {
         if (jugador.moviendoIzquierda && jugador.x > 0) {
             jugador.x -= jugador.velocidad;
@@ -319,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Disparar
+    // Función para disparar
     function disparar() {
         balas.push({
             x: jugador.x + jugador.ancho / 2 - anchoBala / 2,
@@ -327,32 +325,29 @@ document.addEventListener('DOMContentLoaded', () => {
             ancho: anchoBala,
             alto: altoBala
         });
-        
-        if (sonidoActivado) {
-            sonidoLaser.currentTime = 0;
-            sonidoLaser.play().catch(e => console.log("Error al reproducir sonido:", e));
-        }
-    }
     
-    // Dibujar estrellas de fondo
-    function dibujarEstrellas() {
-        ctx.fillStyle = 'white';
-        
-        // Dibujar y actualizar cada estrella
-        estrellas.forEach(estrella => {
-            // Dibujar la estrella
-            ctx.fillRect(estrella.x, estrella.y, estrella.tamaño, estrella.tamaño);
-            
-            // Mover la estrella hacia abajo (efecto de caída lenta)
-            estrella.y += estrella.velocidad;
-            
-            // Si la estrella sale de la pantalla, reposicionarla arriba
-            if (estrella.y > ALTO_LIENZO) {
-                estrella.y = 0;
-                estrella.x = Math.random() * ANCHO_LIENZO;
-            }
-        });
+    if (sonidoActivado) {
+        sonidoLaser.currentTime = 0;
+        sonidoLaser.play().catch(() => {});
     }
+}
+
+        
+        // Dibujar las estrellas de fondo
+        function dibujarEstrellas() {
+            ctx.fillStyle = 'white';
+            
+            estrellas.forEach(estrella => {
+                ctx.fillRect(estrella.x, estrella.y, estrella.tamano, estrella.tamano);
+                estrella.y += estrella.velocidad;
+                
+                if (estrella.y > ALTO_LIENZO) {
+                    estrella.y = 0;
+                    estrella.x = Math.random() * ANCHO_LIENZO;
+                }
+            });
+        }
+        
         // Dibujar mensaje de pausa
         function dibujarMensajePausa() {
             ctx.fillStyle = '#fff';
@@ -363,22 +358,22 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillText('Presiona el botón de pausa para continuar', ANCHO_LIENZO / 2, ALTO_LIENZO / 2 + 40);
         }
         
-        // Pausar/reanudar el juego
+        // Alternar pausa/reanudación del juego
         function alternarPausa() {
             juegoPausado = !juegoPausado;
             botonPausa.textContent = juegoPausado ? 'Reanudar' : 'Pausar';
             botonPausa.classList.toggle('paused', juegoPausado);
             
             if (juegoPausado) {
-                cronometro.pausar(); // Usar pausar en lugar de detener
+                cronometro.pausar();
                 dibujarMensajePausa();
             } else {
-                cronometro.reanudar(); // Usar reanudar en lugar de iniciar
+                cronometro.reanudar();
                 requestAnimationFrame(bucleJuego);
             }
         }
         
-        // Activar/desactivar sonido
+        // Alternar sonido activado/desactivado
         function alternarSonido() {
             sonidoActivado = !sonidoActivado;
             botonSonido.textContent = sonidoActivado ? 'Silenciar' : 'Activar Sonido';
@@ -391,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Reiniciar el juego
         function reiniciarJuego() {
-            // Detener los sonidos de victoria y derrota
             sonidoVictoria.pause();
             sonidoVictoria.currentTime = 0;
             sonidoDerrota.pause();
@@ -453,7 +447,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             ctx.clearRect(0, 0, ANCHO_LIENZO, ALTO_LIENZO);
-            
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.fillRect(0, 0, ANCHO_LIENZO, ALTO_LIENZO);
             dibujarEstrellas();
@@ -526,4 +519,5 @@ document.addEventListener('DOMContentLoaded', () => {
         inicializarEstrellas();
         cronometro.iniciar();
         requestAnimationFrame(bucleJuego);
-    });
+        });
+    
