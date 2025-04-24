@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria</title>
+    <link rel="stylesheet" href="memory.css">
+    <!-- Primero cargar crono.js para que esté disponible para memory.js -->
+    <script src="crono.js" defer></script>
+    <script src="memory.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Memory</h1>
+    </header>
+    
+    <div class="contenedor-principal">
+        <div class="panel-izquierdo">
+            <div class="controles">
+                <div class="selector-dimensiones">
+                    <span>Dimensiones del tablero:</span>
+                    <div class="botones-dimensiones">
+                        <button class="boton-dimension" data-dimension="2">2x2</button>
+                        <button class="boton-dimension seleccionado" data-dimension="4">4x4</button>
+                        <button class="boton-dimension" data-dimension="6">6x6</button>
+                    </div>
+                </div>
+                <button id="boton-comenzar">Comenzar Juego</button>
+                <button id="boton-reiniciar" disabled>Reiniciar Juego</button>
+            </div>
+            
+            <div class="info-juego">
+                <div class="contenedor-movimientos">
+                    <span>Movimientos</span>
+                    <div id="movimientos">0</div>
+                </div>
+                <div class="contenedor-tiempo">
+                    <span>Tiempo</span>
+                    <div id="tiempo">0:00</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel-derecho">
+            <div id="tablero-juego" class="dim-4">
+                <!-- Las cartas se generarán dinámicamente con JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para mensaje final -->
+    <div id="modal" class="modal">
+        <div class="modal-contenido">
+            <h2 class="modal-titulo">¡Felicidades!</h2>
+            <p id="modal-mensaje" class="modal-mensaje"></p>
+            <button id="modal-boton" class="modal-boton">Jugar de nuevo</button>
+        </div>
+    </div>
+</body>
+</html>
