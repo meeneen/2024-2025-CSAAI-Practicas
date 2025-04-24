@@ -198,7 +198,7 @@ h1 {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    transition: transform 0.6s;
+    transition: transform 0.4s; /* Animación más rápida: de 0.6s a 0.4s */
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -246,6 +246,11 @@ h1 {
 .carta.emparejada .carta-reverso {
     background-color: #4CAF50;
     color: white;
+}
+
+/* Añadir clase para cartas bloqueadas */
+.carta.bloqueada {
+    pointer-events: none;
 }
 
 /* Modal para mensaje final */

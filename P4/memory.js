@@ -27,6 +27,7 @@ class JuegoMemory {
         this.bloqueado = false;
         this.juegoIniciado = false;
         this.movimientos = 0;
+        this.animacionEnCurso = false; // Nueva variable para controlar animaciones
         
         // Inicializar cronómetro
         this.cronometro = new Cronometro(this.elementoTiempo);
@@ -88,6 +89,9 @@ class JuegoMemory {
         this.elementoMovimientos.textContent = '0';
         this.cronometro.reiniciar();
         this.juegoIniciado = false;
+        this.bloqueado = false;
+        this.animacionEnCurso = false;
+        this.cartasVolteadas = [];
         
         // Habilitar/deshabilitar botones según estado
         this.botonComenzar.disabled = false;
@@ -142,11 +146,15 @@ class JuegoMemory {
         // Mezclar las cartas
         cartasEmojis = this.mezclarArray(cartasEmojis);
         
+        // Usar un fragmento de documento para mejorar el rendimiento
+        const fragmento = document.createDocumentFragment();
+        
         // Crear las cartas en el DOM
         for (let i = 0; i < cartasEmojis.length; i++) {
             const carta = document.createElement('div');
             carta.className = 'carta';
             carta.dataset.valor = cartasEmojis[i]; // Guardar el emoji como valor
+            carta.dataset.index = i; // Añadir un índice único para identificar la carta
             
             const cartaFrente = document.createElement('div');
             cartaFrente.className = 'carta-frente';
@@ -163,8 +171,11 @@ class JuegoMemory {
                 this.voltearCarta(carta);
             });
             
-            this.tableroJuego.appendChild(carta);
+            fragmento.appendChild(carta);
         }
+        
+        // Añadir todas las cartas al tablero de una vez
+        this.tableroJuego.appendChild(fragmento);
     }
     
     // Método para mezclar un array (algoritmo Fisher-Yates)
@@ -214,13 +225,33 @@ class JuegoMemory {
         this.prepararTablero();
     }
     
+    // Bloquear todas las cartas
+    bloquearTodasLasCartas() {
+        const cartas = this.tableroJuego.querySelectorAll('.carta:not(.emparejada)');
+        cartas.forEach(carta => {
+            carta.classList.add('bloqueada');
+        });
+    }
+    
+    // Desbloquear todas las cartas
+    desbloquearTodasLasCartas() {
+        const cartas = this.tableroJuego.querySelectorAll('.carta.bloqueada');
+        cartas.forEach(carta => {
+            carta.classList.remove('bloqueada');
+        });
+    }
+    
     // Voltear una carta
     voltearCarta(carta) {
-        // No hacer nada si la carta ya está volteada,
-        // es parte de una pareja encontrada o el tablero está bloqueado
+        // No hacer nada si:
+        // - La carta ya está volteada
+        // - Es parte de una pareja encontrada
+        // - El tablero está bloqueado
+        // - Hay una animación en curso
         if (carta.classList.contains('volteada') || 
             carta.classList.contains('emparejada') || 
-            this.bloqueado) {
+            this.bloqueado ||
+            this.animacionEnCurso) {
             return;
         }
         
@@ -229,23 +260,40 @@ class JuegoMemory {
             this.comenzarJuego();
         }
         
+        // Marcar que hay una animación en curso
+        this.animacionEnCurso = true;
+        
         // Voltear la carta
         carta.classList.add('volteada');
         
         // Añadir la carta a las volteadas
         this.cartasVolteadas.push(carta);
         
-        // Si hay dos cartas volteadas, comprobar si son pareja
-        if (this.cartasVolteadas.length === 2) {
-            this.movimientos++;
-            this.elementoMovimientos.textContent = this.movimientos;
-            
-            this.bloqueado = true;
-            setTimeout(() => {
-                this.comprobarCoincidencia();
-                this.bloqueado = false;
-            }, 500);
-        }
+        // Esperar a que termine la animación de volteo antes de continuar
+        setTimeout(() => {
+            // Si hay dos cartas volteadas, comprobar si son pareja
+            if (this.cartasVolteadas.length === 2) {
+                this.movimientos++;
+                this.elementoMovimientos.textContent = this.movimientos;
+                
+                this.bloqueado = true;
+                
+                // Bloquear todas las cartas mientras se comprueba la coincidencia
+                this.bloquearTodasLasCartas();
+                
+                setTimeout(() => {
+                    this.comprobarCoincidencia();
+                    this.bloqueado = false;
+                    this.animacionEnCurso = false;
+                    
+                    // Desbloquear las cartas que no son parte de parejas encontradas
+                    this.desbloquearTodasLasCartas();
+                }, 500);
+            } else {
+                // Si solo hay una carta volteada, permitir voltear otra
+                this.animacionEnCurso = false;
+            }
+        }, 400); // Este tiempo debe coincidir con la duración de la animación CSS
     }
     
     // Comprobar si las dos cartas volteadas son pareja
@@ -269,7 +317,7 @@ class JuegoMemory {
                 carta1.classList.remove('volteada');
                 carta2.classList.remove('volteada');
                 this.cartasVolteadas = [];
-            }, 1000);
+            }, 250);
         }
     }
     
