@@ -19,9 +19,8 @@ class JuegoMemory {
         this.modalMensaje = document.getElementById('modal-mensaje');
         this.modalBoton = document.getElementById('modal-boton');
         
-        // Variables del juego
-        this.dimensiones = 4; // Valor por defecto
-        this.numParejas = 8;  // 4x4 / 2 = 8 parejas
+        this.dimensiones = 4; 
+        this.numParejas = 8; 
         this.cartasVolteadas = [];
         this.parejasEncontradas = 0;
         this.bloqueado = false;
@@ -39,7 +38,7 @@ class JuegoMemory {
         this.prepararTablero();
     }
     
-    // Configurar eventos iniciales
+   
     inicializarEventos() {
         // Evento para el botón de comenzar
         this.botonComenzar.addEventListener('click', () => {
@@ -178,7 +177,7 @@ class JuegoMemory {
         this.tableroJuego.appendChild(fragmento);
     }
     
-    // Método para mezclar un array (algoritmo Fisher-Yates)
+    // Método para mezclar un array (creado por ia )
     mezclarArray(array) {
         const nuevoArray = [...array];
         for (let i = nuevoArray.length - 1; i > 0; i--) {
