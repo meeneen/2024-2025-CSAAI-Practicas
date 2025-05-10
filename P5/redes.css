@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: #FFF;
+}
+
+html {
+    background-image: url('ARCHIVOS/fondo.jpeg');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+}
+
+canvas {
+    border: 2px solid #ADD8E6;
+    background-color: rgb(125, 196, 224);
+    display: block; 
+    margin: 40px auto 0;
+    width: 90%; /* Ajuste para que ocupe más espacio en pantalla */
+    max-width: 1000px; /* Tamaño máximo para evitar que sea demasiado grande en pantallas muy anchas */
+    height: auto; /* Mantener proporción */
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); /* Efecto glow en rojo para el canvas */
+    animation: canvasGlow 2s infinite alternate;
+}
+
+@keyframes canvasGlow {
+    0% { box-shadow: 0 0 50px rgb(255, 0, 0); }
+    100% { box-shadow: 0 0 50px rgb(255, 0, 0); }
+}
+
+.controls {
+    text-align: center;
+    margin-top: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre los botones */
+    margin-bottom: 20px; /* Espacio entre los botones y el contenedor de información */
+}
+
+@keyframes glowing {
+    0% { color: #00bfff; } 
+    50% { color: #ffffff; } 
+    100% { color: #00bfff; } 
+}
+
+@keyframes chase {
+    0% {
+        text-shadow: 0 0 10px #FFFFFF; 
+    }
+    50% {
+        text-shadow: 10px 10px 10px #ADD8E6; 
+    }
+    100% {
+        text-shadow: 0 0 10px #FFFFFF; 
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.loading {
+    animation: pulse 1s infinite;
+}
+
+.glow-text {
+    animation: glowing 2s infinite alternate;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.chase-text {
+    animation: chase 2s infinite alternate;
+}
+
+.controls button {
+    background: #282A3A;
+    /* Eliminamos el color fijo para permitir que la animación funcione */
+    border-radius: 2px;
+    padding: 10px 20px;
+    border: 0;
+    cursor: pointer;
+    font-family: Fredoka;
+    font-size: 18pt;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8); /* Efecto glow en rojo para los botones */
+    animation: canvasGlow 2s infinite alternate; /* Misma animación que el canvas */
+}
+
+/* Aseguramos que la animación de color se aplique al texto del botón */
+.controls button.glow-text {
+    animation: glowing 2s infinite alternate, canvasGlow 2s infinite alternate;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.controls button:hover {
+    background: #3D3F5C;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 1); /* Efecto más intenso al pasar el ratón */
+}
+
+#info {
+    margin-top: 20px;
+    color: #FFF;
+    background-color: #282A3A; /* Mismo color que los botones */
+    padding: 10px; 
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8); /* Efecto glow en rojo para el contenedor */
+    animation: canvasGlow 2s infinite alternate; /* Misma animación que el canvas */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#info p {
+    margin: 5px;
+    font-family: Fredoka;
+    font-size: 29px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5); 
+}
+
+.nodo-ruta-minima {
+    fill: green; 
+    stroke: black; 
+}
+
+@media only screen and (max-width: 600px) {
+    canvas {
+        width: 95%; 
+        height: auto; 
+        margin: 10px auto;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .controls button {
+        margin: 5px 0;
+        width: 80%;
+        font-size: 16pt;
+    }
+
+    #info {
+        width: 80%;
+        margin: 10px auto;
+    }
+
+    #info p {
+        font-size: 18px;
+    }
+}

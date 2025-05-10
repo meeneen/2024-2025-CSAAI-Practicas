@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de envío de paquetes de datos</title>
+
+    <link rel="stylesheet" href="redes.css">
+
+    <script src="dijkstra.js" defer></script>
+    <script src="redes.js" defer></script>
+
+</head>
+<body>
+    <div class="container">
+        <canvas id="networkCanvas" width="1000" height="600"></canvas>
+    </div>
+    <div class="controls">
+        <audio id="audioError" src="ARCHIVOS/error.mp3"></audio>
+        <audio id="audioBoton" src="ARCHIVOS/ruta.mp3"></audio>
+        <audio id="audioRed" src="ARCHIVOS/conexion.mp3"></audio>
+        <div class="button-container">
+            <button id="btnCNet" class="glow-text">Generar Red</button>
+            <button id="btnMinPath" class="glow-text">Calcular ruta</button>
+        </div>
+        <div id="info">
+            <p id="numNodos" class="glow-text">Número de nodos: </p>
+            <p id="tiempoEnvio" class="glow-text">Tiempo de envío: 0 ms</p>
+            <p id="mensaje" class="glow-text"></p>
+        </div>
+    </div>  
+</body>
+</html>
