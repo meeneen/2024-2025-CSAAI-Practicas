@@ -4,7 +4,13 @@
 * {
     box-sizing: border-box;
   }
-  
+
+  body {
+    background-color: #000000a2;
+    color: #ffffff; /* Opcional: texto en blanco para mejor contraste */
+    margin: 0;
+    padding: 0;
+}
 /* Crear columnas de ancho diferente que se colocan una a continuación de la otra */
 .columna {
 float: left;
@@ -28,11 +34,11 @@ clear: both;
 }
 
 #c1 {
-    background-color:#aaa;
+    background-color:#918d8d;
 }
 
 #c2 {
-    background-color:#bbb;
+    background-color:#918d8d;
 }
 
 /* estilos para imágenes https://www.w3schools.com/css/css3_images.asp */
